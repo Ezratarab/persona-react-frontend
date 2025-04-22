@@ -1,0 +1,62 @@
+.fullscreenCardWrapper {
+  width: 100vw;
+  height: 100vh;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  overflow: hidden;
+}
+
+.fullscreenCard {
+  width: 90vw;
+  height: 80vh;
+  border-radius: 20px;
+  background: linear-gradient(135deg, #cacbcb, #7a96a1);
+  flex-direction: column;
+  color: white;
+  padding: 40px;
+  box-sizing: border-box;
+  cursor: pointer;
+  transition: all 0.6s ease;
+  position: relative;
+  display: flex;
+}
+.image {
+  position: absolute;
+  top: 50px;
+  right: 50px;
+  width: 30vw;
+  height: auto;
+  border-radius: 10px;
+}
+.name {
+  position: absolute;
+  top: 50px;
+  right: 550px;
+  font-size: xx-large;
+  color: #be823c;
+}
+
+.posts {
+    display: flex;
+    flex-wrap: wrap;
+    flex-direction: row-reverse; 
+    gap: 5px;
+    width: 100%; 
+}
+
+.post {
+    width: 10vw;
+    height: 20vh;
+    object-fit: cover;
+    flex-shrink: 0; 
+}
+
+@keyframes rotate {
+  0% {
+    transform: rotate(0);
+  }
+  100% {
+    transform: rotate(360deg);
+  }
+}

@@ -1,0 +1,17 @@
+@font-face {
+  font-family: "providence-bold";
+  src: url("./fonts/audio-nugget/AudioNugget.ttf") format("truetype");
+}
+
+* {
+  font-family: "providence-bold", sans-serif;
+}
+
+body {
+  margin: 0;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+
+
+

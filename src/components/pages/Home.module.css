@@ -1,0 +1,80 @@
+@font-face {
+  font-family: "providence-bold";
+  src: url("../../fonts/audio-nugget/AudioNugget.ttf") format("truetype");
+}
+
+.home {
+  height: 100vh;
+  width: 100vw;
+  position: relative;
+  overflow: hidden; /* Add this to contain rotated video */
+}
+
+.videoBackground {
+  position: absolute;
+  width: 100vh; /* Swap width and height for rotation */
+  height: 100vw;
+  object-fit: cover; /* Ensures the video covers the entire area */
+  transform: rotate(90deg) translate(-60%, -27.2%); /* Center the rotated video */
+  transform-origin: center center;
+  z-index: -1;
+}
+.projName {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  margin-top: 20px;
+  color: #be823c;
+  font-weight: bold;
+  font-size: larger;
+  font-family: "providence-bold";
+}
+.welcome {
+  position: absolute;
+  z-index: 1;
+  width: 100%;
+  text-align: center;
+  margin-top: 100px;
+  font-family: "providence-bold";
+  font-weight: bolder;
+  font-size: 3rem;
+  color: #be823c; /* Ensure text visibility */
+}
+.text {
+  font-size: 2rem;
+  opacity: 0;
+  transform: translateY(-50px);
+  transition: opacity 1s ease-out, transform 1s ease-out;
+}
+
+.text.drop-in {
+  opacity: 1;
+  transform: translateY(0);
+}
+.options {
+  margin-top: 25vh;
+  margin-left: 2.5vw;
+  list-style-type: none;
+  width: 10vw;
+  font-size: larger;
+  font-family: "providence-bold";
+  color: #be823c;
+}
+
+.options li {
+  padding: 10px;
+  margin-bottom: 8px;
+  transition: background-color 0.3s ease-in-out;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  text-align: center;
+  height: 50px;
+  position: relative; /* Required for absolute positioning of dots */
+  overflow: visible;
+}
+
+.options li:hover {
+  background-color: rgba(211, 115, 6, 0.3);
+  cursor: pointer;
+}

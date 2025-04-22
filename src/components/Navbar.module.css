@@ -1,0 +1,52 @@
+@font-face {
+  font-family: "providence-bold";
+  src: url("../fonts/audio-nugget/AudioNugget.ttf") format("truetype");
+}
+.navBar {
+  display: flex;
+  width: 100%;
+  flex-direction: row;
+  align-items: center;
+  justify-content: space-between;
+  position: fixed; 
+  top: 0;
+  font-family: Arial, sans-serif;
+  height: 4rem; 
+  padding: 0 1rem;
+  z-index: 1000;
+}
+
+.logo {
+  display: flex;
+  align-items: center;
+  justify-content: flex-start; 
+  margin-left: 20px;
+}
+
+.logoImage {
+  max-width: 100%;
+  height: auto;
+  max-height: 3rem; 
+}
+
+.login {
+  font-size: larger;
+  margin-right: 2rem;
+  font-weight: bold;
+  font-family: "providence-bold";
+}
+
+.navBar ul li a {
+  text-decoration: none;
+  padding: 0.5rem;
+  border-radius: 0.5rem;
+  position: relative;
+}
+
+.login a {
+  color: #be823c;
+}
+.login a:hover {
+  color: #be823c;
+  text-decoration: none;
+}
