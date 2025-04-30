@@ -1,7 +1,4 @@
-@font-face {
-  font-family: "providence-bold";
-  src: url("../../fonts/audio-nugget/AudioNugget.ttf") format("truetype");
-}
+
 
 .home {
   height: 100vh;
@@ -27,7 +24,6 @@
   color: #be823c;
   font-weight: bold;
   font-size: larger;
-  font-family: "providence-bold";
 }
 .welcome {
   position: absolute;
@@ -35,7 +31,6 @@
   width: 100%;
   text-align: center;
   margin-top: 100px;
-  font-family: "providence-bold";
   font-weight: bolder;
   font-size: 3rem;
   color: #be823c; /* Ensure text visibility */
@@ -57,7 +52,6 @@
   list-style-type: none;
   width: 10vw;
   font-size: larger;
-  font-family: "providence-bold";
   color: #be823c;
 }
 

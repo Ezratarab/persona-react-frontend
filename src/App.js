@@ -5,6 +5,7 @@ import Login from "./components/pages/Login.js";
 import NavBar from "./components/Navbar.js";
 import Home from "./components/pages/Home.js";
 import Profile from "./components/pages/Profile.js";
+import Post from "./components/Post.js";
 
 function App() {
   return (
@@ -15,6 +16,7 @@ function App() {
           <Route path="/home" element={<Home/>}></Route>
           <Route path="/login" element={<Login />}></Route>
           <Route path="/profile" element={<Profile/>}></Route>
+          <Route path="/post" element={<Post/>}></Route>
           <Route path="*" element={<Navigate to="/home" />} />
         </Routes>
       </BrowserRouter>

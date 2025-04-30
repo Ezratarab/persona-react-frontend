@@ -1,7 +1,4 @@
-@font-face {
-  font-family: "providence-bold";
-  src: url("../fonts/audio-nugget/AudioNugget.ttf") format("truetype");
-}
+
 .navBar {
   display: flex;
   width: 100%;

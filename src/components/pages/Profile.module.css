@@ -1,3 +1,27 @@
+.profileContainer {
+  width: 100vw;
+  min-height: 100vh;
+  display: flex;
+  flex-direction: column;
+  position: relative;
+}
+.searchWrapper {
+  position: absolute;
+  top: 0vh;
+  left: 50%;
+  transform: translateX(-50%);
+  z-index: 9999;
+  pointer-events: auto;
+}
+
+.searchBar {
+  position: absolute;
+  top: 2vh;
+  left: 50%;
+  transform: translateX(-50%);
+  z-index: 10;
+}
+
 .fullscreenCardWrapper {
   width: 100vw;
   height: 100vh;
@@ -21,6 +45,7 @@
   position: relative;
   display: flex;
 }
+
 .image {
   position: absolute;
   top: 50px;
@@ -29,6 +54,7 @@
   height: auto;
   border-radius: 10px;
 }
+
 .name {
   position: absolute;
   top: 50px;
@@ -38,19 +64,51 @@
 }
 
 .posts {
-    display: flex;
-    flex-wrap: wrap;
-    flex-direction: row-reverse; 
-    gap: 5px;
-    width: 100%; 
+  display: flex;
+  flex-wrap: wrap;
+  flex-direction: row-reverse;
+  gap: 5px;
+  width: 100%;
 }
 
 .post {
-    width: 10vw;
-    height: 20vh;
-    object-fit: cover;
-    flex-shrink: 0; 
+  width: 10vw;
+  height: 20vh;
+  object-fit: cover;
+  flex-shrink: 0;
 }
+.information {
+  position: absolute;
+  right: 37vw;
+  top: 15vh;
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+}
+
+.infoItem {
+  text-align: right;
+}
+
+.infoItem small {
+  font-size: 12px;
+  color: #be823c;
+}
+
+.infoItem p {
+  margin: 0;
+  font-size: 16px;
+  color: black;
+}
+.sentence {
+  color: black;
+  position: absolute;
+  right: 20vw;
+  top: 55vh;
+  white-space: nowrap; 
+  font-size: 25px; 
+}
+
 
 @keyframes rotate {
   0% {
