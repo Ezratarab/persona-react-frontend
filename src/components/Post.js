@@ -2,6 +2,7 @@ import React, { useState } from "react";
 import styles from "./Post.module.css";
 import image from "../assets/soldier.jpeg";
 import Comment from "./Comment";
+import SearchBar from "./SearchBar";
 const comments = [
   { text: "This is the first comment", writer: "elinor" },
   { text: "This is the second comment", writer: "Julia" },
@@ -28,54 +29,67 @@ const comments = [
 export default function Post() {
   const [liked, setLiked] = useState(false);
   const [newComment, setNewComment] = useState("");
+  const [likes, setLikes] = useState(0);
 
   const toggleLike = () => {
+    if (liked) {
+      setLikes(likes - 1);
+    } else {
+      setLikes(likes + 1);
+    }
     setLiked(!liked);
   };
+  
   return (
-    <div className={styles.fullscreenCardWrapper}>
-      <div className={styles.fullscreenCard}>
-        {/*LEFT SIDE*/}
-        <img src={image} className={styles.image} />
-        <button
-          className={`${styles.heartButton} ${liked ? styles.liked : ""}`}
-          onClick={toggleLike}
-        >
-          ❤️
-        </button>
-        {/*RIGHT SIDE*/}
-        <div className={styles.rightSide}>
-          <div className={styles.authorWrapper}>
-            <div className={styles.author}>NAME</div>
-            <small className={styles.description}>
-              Under the warm golden light of the setting sun, the small town
-              came alive with a quiet, almost magical energy. Under the warm
-              golden light of the setting sun, the small town came alive with a
-              quiet, almost magical energy. Under the warm golden light of the
-              setting sun, the small town came alive with a quiet, almost
-              magical energy.
-            </small>
-          </div>
-          <div>
-            <input
-              className={styles.newComment}
-              type="text"
-              placeholder="comment to the soldier"
-              value={newComment}
-              onChange={(e) => setNewComment(e.target.value)}
-            />
-            <button className={styles.sendButton}> שגר</button>
-          </div>
-          {comments.map((comment, index) => {
-            console.log(comment);
-            return (
-              <Comment
-                key={index}
-                comment={comment}
-                className={styles.comment}
+    <div>
+      <div className={styles.searchWrapper}>
+        <SearchBar className={styles.searchBar} />
+      </div>
+      <div className={styles.fullscreenCardWrapper}>
+        <div className={styles.fullscreenCard}>
+          {/*LEFT SIDE*/}
+          <img src={image} className={styles.image} />
+          <button
+            className={`${styles.heartButton} ${liked ? styles.liked : ""}`}
+            onClick={toggleLike}
+          >
+            ❤️
+          </button>
+          <div className={styles.likes}>{likes}</div>
+          {/*RIGHT SIDE*/}
+          <div className={styles.rightSide}>
+            <div className={styles.authorWrapper}>
+              <div className={styles.author}>NAME</div>
+              <small className={styles.description}>
+                Under the warm golden light of the setting sun, the small town
+                came alive with a quiet, almost magical energy. Under the warm
+                golden light of the setting sun, the small town came alive with
+                a quiet, almost magical energy. Under the warm golden light of
+                the setting sun, the small town came alive with a quiet, almost
+                magical energy.
+              </small>
+            </div>
+            <div>
+              <input
+                className={styles.newComment}
+                type="text"
+                placeholder="comment to the soldier"
+                value={newComment}
+                onChange={(e) => setNewComment(e.target.value)}
               />
-            );
-          })}
+              <button className={styles.sendButton}> שגר</button>
+            </div>
+            {comments.map((comment, index) => {
+              console.log(comment);
+              return (
+                <Comment
+                  key={index}
+                  comment={comment}
+                  className={styles.comment}
+                />
+              );
+            })}
+          </div>
         </div>
       </div>
     </div>

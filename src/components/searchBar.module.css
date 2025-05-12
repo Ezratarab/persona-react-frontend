@@ -4,3 +4,7 @@
   padding: 10px 20px;
   border-radius: 1cm;
 }
+.searchBar input {
+  border: none;
+  outline: none; 
+}

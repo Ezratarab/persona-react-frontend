@@ -1,6 +1,7 @@
 import React from "react";
 import styles from "./Home.module.css";
 import { motion } from "framer-motion";
+import SearchBar from "../SearchBar";
 
 export default function Home() {
   return (
@@ -23,7 +24,6 @@ export default function Home() {
           Hi, how are you?
         </motion.h1>
       </div>
-      
     </div>
   );
 }

@@ -130,6 +130,17 @@ class APIService {
       }
     }
   }
+  async getUser(username) {
+    try {
+      console.log(username);
+      console.log("got here!");
+      const response = await axios.get(`${API_URL}/users/${username}`);
+      return response.data.user;
+    } catch (error) {
+      console.error("Error fetching user:", error);
+      throw error;
+    }
+  }
 
   /** 
   signup(newUser, userType) {
