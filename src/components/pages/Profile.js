@@ -14,7 +14,6 @@ export default function Profile() {
   const [user, setUser] = useState(null);
   useEffect(() => {
     if (username) {
-      console.log(username);
       const fetchUser = async () => {
         try {
           const fetchedUser = await authServiceInstance.getUser(username);

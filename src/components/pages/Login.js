@@ -23,15 +23,17 @@ function Login() {
     try {
       const data = await authServiceInstance.login(email, password);
       if (data.error || data.response) {
-        throw data; 
+        throw data;
       }
-      notify(data.message); 
+      notify(data.message);
+      setUsername("");
+      setPassword("");
     } catch (error) {
-      const errorMessage = error.response?.data?.message || error.error || "Something went wrong!";
-      notify(errorMessage); 
+      const errorMessage =
+        error.response?.data?.message || error.error || "Something went wrong!";
+      notify(errorMessage);
+    }
   };
-}
-  
 
   return (
     <MDBContainer
