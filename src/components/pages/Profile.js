@@ -13,21 +13,21 @@ export default function Profile() {
   const { username } = useParams();
   const [user, setUser] = useState(null);
   useEffect(() => {
+    console.log("hiiiiiiiiiiiiiii");
     if (username) {
       const fetchUser = async () => {
         try {
           const fetchedUser = await authServiceInstance.getUser(username);
-          console.log("Fetched user:", fetchedUser); 
+          console.log("Fetched user:", fetchedUser);
           setUser(fetchedUser);
         } catch (err) {
           console.error("Failed to fetch user:", err);
         }
       };
-  
+
       fetchUser();
     }
   }, [username]);
-  
 
   const handleFlip = () => setIsFlipped(!isFlipped);
   if (!user) {

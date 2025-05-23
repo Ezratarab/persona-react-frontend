@@ -1,22 +1,12 @@
 import axios from "axios";
 import { jwtDecode } from "jwt-decode";
+import axiosInstance from "./axiosInstance.js";
 
-const API_URL = "http://localhost:9000/user";
+const API_URL = process.env.REACT_APP_API_URL;
 
 class APIService {
-  extractAccessToken() {
-    const accessToken = localStorage.getItem("accessToken");
-    return accessToken;
-  }
-  updateAccessToken(response){
-    const newAccessToken = response.headers["authorization"];
-    if (newAccessToken?.startsWith("Bearer ")) {
-      const token = newAccessToken.split(" ")[1];
-      localStorage.setItem("accessToken", token);
-      console.log("Updated access token:", token);
-    }
-  }
   async login(username, password) {
+    console.log(API_URL);
     try {
       const response = await axios.post(
         `${API_URL}/login`,
@@ -49,41 +39,13 @@ class APIService {
   }
 
   async getUser(username) {
-    try {
-      const accessToken = this.extractAccessToken();
-      console.log("previos:", accessToken);
-      console.log("FRONT trying to get: ", username);
-      const response = await axios.get(`${API_URL}/users/${username}`, {
-        withCredentials: true,
-        headers: {
-          Authorization: `Bearer ${accessToken}`,
-        },
-      });
-      this.updateAccessToken(response);
-
-      return response.data.user;
-    } catch (error) {
-      console.error("Error fetching user:", error);
-      throw error;
-    }
+    const response = await axiosInstance.get(`/users/${username}`);
+    return response.data.user;
   }
 
   async getUserByEmail(email) {
-    try {
-      const accessToken = this.extractAccessToken();
-      const response = await axios.get(`${API_URL}/user/${email}`, {
-        withCredentials: true,
-        headers: {
-          Authorization: `Bearer ${accessToken}`,
-        },
-      });
-      this.updateAccessToken(response);
-
-      return response.data;
-    } catch (error) {
-      console.error("Error fetching user by email:", error);
-      throw error;
-    }
+    const response = await axios.get(`${API_URL}/user/${email}`);
+    return response.data.user;
   }
 
   async logout() {
