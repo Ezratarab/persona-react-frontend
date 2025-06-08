@@ -6,6 +6,7 @@ import NavBar from "./components/Navbar.js";
 import Home from "./components/pages/Home.js";
 import Profile from "./components/pages/Profile.js";
 import Post from "./components/Post.js";
+import AddPost from "./components/pages/AddPost.js";
 
 function App() {
   return (
@@ -13,10 +14,12 @@ function App() {
       <BrowserRouter>
         <NavBar />
         <Routes>
-          <Route path="/home" element={<Home/>}></Route>
+          <Route path="/home" element={<Home />}></Route>
           <Route path="/login" element={<Login />}></Route>
+          <Route path="/logout" element={<Post />}></Route>
           <Route path="/profile/:username" element={<Profile />} />
-          <Route path="/post" element={<Post/>}></Route>
+          <Route path="/post" element={<Post />}></Route>
+          <Route path="/addPost" element={<AddPost />}></Route> 
           <Route path="*" element={<Navigate to="/home" />} />
         </Routes>
       </BrowserRouter>

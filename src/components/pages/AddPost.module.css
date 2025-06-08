@@ -1,0 +1,36 @@
+/* AddPost.module.css */
+
+.container {
+  position: relative;
+}
+
+.scrollingBar {
+  position: absolute;
+  top: 10vh;
+  height: 5vh;
+  display: flex;
+  align-items: center;
+  background-color: #be823c;
+}
+
+.label {
+  margin-left: 50px;
+  font-weight: bold;
+  color: black;
+  white-space: nowrap;
+}
+
+.upload {
+  position: absolute;
+  right: 10vw;
+  top: 25vh;
+  background-color: blue;
+  width: 20vw;
+  height: 40vh;
+  border-radius: 1cap;
+}
+.upload:hover {
+  border: 5px red;
+  border-style: dashed;
+  cursor: pointer;
+}

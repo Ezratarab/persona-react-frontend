@@ -13,12 +13,11 @@ export default function Home() {
         />{" "}
         Your browser does not support the video tag.
       </video>
-      <div className={styles.projName}>persona</div>
       <div className={styles.welcome}>
         <motion.h1
-          initial={{ opacity: 0, y: -50 }} // Initial state (hidden and above)
-          animate={{ opacity: 1, y: 0 }} // Animate to visible and original position
-          transition={{ duration: 5, ease: "easeOut" }} // Animation duration and easing
+          initial={{ opacity: 0, y: -50 }} 
+          animate={{ opacity: 1, y: 0 }} 
+          transition={{ duration: 5, ease: "easeOut" }} 
           style={{ fontSize: "2rem" }}
         >
           Hi, how are you?

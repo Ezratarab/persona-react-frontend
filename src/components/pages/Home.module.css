@@ -16,15 +16,6 @@
   transform-origin: center center;
   z-index: -1;
 }
-.projName {
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  margin-top: 20px;
-  color: #be823c;
-  font-weight: bold;
-  font-size: larger;
-}
 .welcome {
   position: absolute;
   z-index: 1;

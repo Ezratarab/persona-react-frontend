@@ -1,14 +1,13 @@
-
 .navBar {
   display: flex;
   width: 100%;
   flex-direction: row;
   align-items: center;
   justify-content: space-between;
-  position: fixed; 
+  position: fixed;
   top: 0;
   font-family: Arial, sans-serif;
-  height: 4rem; 
+  height: 4rem;
   padding: 0 1rem;
   z-index: 1000;
 }
@@ -16,14 +15,14 @@
 .logo {
   display: flex;
   align-items: center;
-  justify-content: flex-start; 
+  justify-content: flex-start;
   margin-left: 20px;
 }
 
 .logoImage {
   max-width: 100%;
   height: auto;
-  max-height: 3rem; 
+  max-height: 3rem;
 }
 
 .login {
@@ -46,4 +45,29 @@
 .login a:hover {
   color: #be823c;
   text-decoration: none;
+}
+.projName {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  margin-top: 20px;
+  color: #be823c;
+  font-weight: bold;
+  font-size: larger;
+}
+.searchWrapper {
+  position: absolute;
+  top: 0vh;
+  left: 50%;
+  transform: translateX(-50%);
+  z-index: 9999;
+  pointer-events: auto;
+}
+
+.searchBar {
+  position: absolute;
+  top: 2vh;
+  left: 50%;
+  transform: translateX(-50%);
+  z-index: 10;
 }
