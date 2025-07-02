@@ -39,20 +39,50 @@ class APIService {
   }
 
   async getUser(username) {
-    console.log("pppppppp");
     const response = await axiosInstance.get(`/users/${username}`);
     return response.data.user;
   }
+  async getAllUsers() {
+    const response = await axiosInstance.get(`/allUsers`);
+    return response.data;
+  }
   async logout() {
     const response = await axiosInstance.post(`/logout`);
-    localStorage.removeItem('accessToken');
+    localStorage.removeItem("accessToken");
     return response;
   }
   async getUserByEmail(email) {
-    const response = await axios.get(`${API_URL}/user/${email}`);
+    const response = await axiosInstance.get(`${API_URL}/user/${email}`);
     return response.data.user;
   }
+  async blobUrlToFile(blobUrl, filename) {
+    const response = await fetch(blobUrl);
+    const blob = await response.blob();
+    return new File([blob], filename, { type: blob.type });
+  }
 
+  async post(username, images, description, location) {
+    const formData = new FormData();
+    formData.append("username", username);
+    formData.append("description", description ?? "");
+    formData.append("location", location ?? "");
+    const files = await Promise.all(
+      images.map((blobUrl, i) => this.blobUrlToFile(blobUrl, `image_${i}.jpg`))
+    );
+    files.forEach((file) => formData.append("photos", file));
+
+    const response = await axiosInstance.post(`${API_URL}/post`, formData, {
+      headers: {
+        "Content-Type": "multipart/form-data",
+      },
+    });
+    console.log(response);
+    return response;
+  }
+  async getPost(postId) {
+    const response = await axiosInstance.get(`${API_URL}/post/${postId}`);
+    return response.data.post;
+  }
 }
 
 const authServiceInstance = new APIService();

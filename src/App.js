@@ -1,4 +1,3 @@
-import logo from "./logo.svg";
 import "./App.css";
 import { BrowserRouter, Navigate, Route, Routes } from "react-router-dom";
 import Login from "./components/pages/Login.js";
@@ -16,10 +15,10 @@ function App() {
         <Routes>
           <Route path="/home" element={<Home />}></Route>
           <Route path="/login" element={<Login />}></Route>
-          <Route path="/logout" element={<Post />}></Route>
+          <Route path="/logout" element={<Home />}></Route>
           <Route path="/profile/:username" element={<Profile />} />
-          <Route path="/post" element={<Post />}></Route>
-          <Route path="/addPost" element={<AddPost />}></Route> 
+          <Route path="/post/:postId" element={<Post />}></Route>
+          <Route path="/addPost" element={<AddPost />}></Route>
           <Route path="*" element={<Navigate to="/home" />} />
         </Routes>
       </BrowserRouter>

@@ -15,7 +15,6 @@ export default function Profile() {
   const [user, setUser] = useState(null);
   const navigate = useNavigate();
   useEffect(() => {
-    console.log("hiiiiiiiiiiiiiii");
     if (username) {
       const fetchUser = async () => {
         try {
@@ -36,10 +35,11 @@ export default function Profile() {
     console.log("wait");
     return <div className={styles.loading}>Loading profile...</div>;
   }
-
+  if (!user || !user.posts) {
+    return <p>Loading posts...</p>;
+  }
   return (
     <div className={styles.profileContainer}>
-
       <div className={styles.fullscreenCardWrapper}>
         <ReactCardFlip isFlipped={isFlipped} flipDirection="horizontal">
           {/* Front Side */}
@@ -90,9 +90,18 @@ export default function Profile() {
           <div className={styles.fullscreenCard} onClick={handleFlip}>
             <div className={styles.posts}>
               {user?.posts?.length > 0 ? (
-                user.posts.map((post, index) => (
-                  <img key={index} src={post.image} className={styles.post} />
-                ))
+                user.posts.map((post, index) => {
+                  const firstPhoto = post.photos?.[0];
+
+                  return firstPhoto ? (
+                    <img
+                      key={index}
+                      src={firstPhoto}
+                      alt={`Post ${index} photo`}
+                      className={styles.post}
+                    />
+                  ) : null;
+                })
               ) : (
                 <p>No posts to show</p>
               )}

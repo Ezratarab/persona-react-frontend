@@ -42,11 +42,11 @@ axiosInstance.interceptors.response.use(
   async (error) => {
     console.log("got error: ", error);
     if (
-      error.response &&
+      error.response /*&&
       error.response.data?.message ===
-        process.env.REACT_APP_REFRESH_TOKEN_EXPIRED
+        process.env.REACT_APP_REFRESH_TOKEN_EXPIRED*/
     ) {
-      window.location.href = "/login";
+      //window.location.href = "/login";
       return Promise.reject(
         "User redirected to login due to expired refresh token"
       );

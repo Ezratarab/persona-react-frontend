@@ -13,7 +13,6 @@
   justify-content: center;
   align-items: center;
   overflow: hidden;
-  
 }
 
 .fullscreenCard {
@@ -39,8 +38,8 @@
   height: auto;
   border-radius: 10px;
 }
-.addPost{
-  width:fit-content;
+.addPost {
+  width: fit-content;
 }
 .name {
   position: absolute;
@@ -56,6 +55,18 @@
   flex-direction: row-reverse;
   gap: 5px;
   width: 100%;
+  overflow-x: auto;
+  scroll-behavior: smooth;
+  -webkit-overflow-scrolling: touch;
+}
+.posts::-webkit-scrollbar {
+  display: none;
+}
+
+/* Hide scrollbar for Firefox */
+.posts {
+  scrollbar-width: none; /* Firefox */
+  -ms-overflow-style: none; /* IE 10+ */
 }
 
 .post {
@@ -92,10 +103,9 @@
   position: absolute;
   right: 20vw;
   top: 55vh;
-  white-space: nowrap; 
-  font-size: 25px; 
+  white-space: nowrap;
+  font-size: 25px;
 }
-
 
 @keyframes rotate {
   0% {

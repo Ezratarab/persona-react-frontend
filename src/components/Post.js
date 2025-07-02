@@ -1,35 +1,27 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import styles from "./Post.module.css";
 import image from "../assets/soldier.jpeg";
 import Comment from "./Comment";
 import SearchBar from "./SearchBar";
-const comments = [
-  { text: "This is the first comment", writer: "elinor" },
-  { text: "This is the second comment", writer: "Julia" },
-  { text: "This is the third comment", writer: "Ethan" },
-  { text: "This is the fourth comment", writer: "Hannah" },
-  { text: "This is the fifth comment", writer: "Charlie" },
-  { text: "This is the sixth comment", writer: "Dana" },
-  { text: "This is the seventh comment", writer: "George" },
-  { text: "This is the eighth comment", writer: "Fay" },
-  { text: "This is the ninth comment", writer: "Ivan" },
-  { text: "This is the tenth comment", writer: "Alice" },
-  { text: "This is the eleventh comment", writer: "Bob" },
-  { text: "This is the twelfth comment", writer: "Julia" },
-  { text: "This is the thirteenth comment", writer: "George" },
-  { text: "This is the fourteenth comment", writer: "Charlie" },
-  { text: "This is the fifteenth comment", writer: "Hannah" },
-  { text: "This is the sixteenth comment", writer: "Ethan" },
-  { text: "This is the seventeenth comment", writer: "Alice" },
-  { text: "This is the eighteenth comment", writer: "Ivan" },
-  { text: "This is the nineteenth comment", writer: "Fay" },
-  { text: "This is the twentieth comment", writer: "Dana" },
-];
+import { useParams } from "react-router-dom";
+import authServiceInstance from "./service/APIService";
 
 export default function Post() {
   const [liked, setLiked] = useState(false);
   const [newComment, setNewComment] = useState("");
-  const [likes, setLikes] = useState(0);
+  const [comments, setComments] = useState([]);
+  const [likes, setLikes] = useState();
+  const { postId } = useParams();
+  const [post, setPost] = useState();
+  const [index, setIndex] = useState(0);
+
+  const next = () => {
+    setIndex((prev) => (prev + 1) % post.photos.length);
+  };
+
+  const prev = () => {
+    setIndex((prev) => (prev - 1 + post.photos.length) % post.photos.length);
+  };
 
   const toggleLike = () => {
     if (liked) {
@@ -39,7 +31,25 @@ export default function Post() {
     }
     setLiked(!liked);
   };
-  
+  useEffect(() => {
+    if (!postId) return;
+
+    const fetchPost = async () => {
+      try {
+        const post = await authServiceInstance.getPost(postId);
+        setPost(post);
+        setLikes(post.likes);
+        setComments(post.comments);
+      } catch (error) {
+        console.log("error while trying to fetch post: ", error);
+      }
+    };
+    fetchPost();
+  }, [post]);
+
+  if (!post) {
+    return <div>FETCHING POST</div>;
+  }
   return (
     <div>
       <div className={styles.searchWrapper}>
@@ -48,7 +58,34 @@ export default function Post() {
       <div className={styles.fullscreenCardWrapper}>
         <div className={styles.fullscreenCard}>
           {/*LEFT SIDE*/}
-          <img src={image} className={styles.image} />
+          <div className={styles.carousel}>
+            <button className={styles.arrow} onClick={prev}>
+              ←
+            </button>
+
+            <div className={styles.imageContainer}>
+              <img
+                src={post.photos[index].image}
+                alt={`photo ${index}`}
+                className={styles.image}
+              />
+            </div>
+
+            <button className={styles.arrow} onClick={next}>
+              →
+            </button>
+
+            <div className={styles.pagination}>
+              {post.photos.map((_, i) => (
+                <span
+                  key={i}
+                  className={`${styles.dot} ${
+                    i === index ? styles.active : ""
+                  }`}
+                />
+              ))}
+            </div>
+          </div>
           <button
             className={`${styles.heartButton} ${liked ? styles.liked : ""}`}
             onClick={toggleLike}
