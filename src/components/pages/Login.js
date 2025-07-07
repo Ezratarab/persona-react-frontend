@@ -13,21 +13,23 @@ import {
 } from "mdb-react-ui-kit";
 import authServiceInstance from "../../components/service/APIService";
 import loginImage from "../../assets/log_in.jpg";
+import { useAuth } from "../service/AuthContext";
+import { useNavigate } from "react-router-dom";
 
 function Login() {
   const [username, setUsername] = useState("");
   const [password, setPassword] = useState("");
+  const { setUser } = useAuth();
   const notify = (data) => toast(data);
-
+  const navigate = useNavigate();
   const login = async (email, password) => {
     try {
       const data = await authServiceInstance.login(email, password);
-      if (data.error || data.response) {
-        throw data;
-      }
       notify(data.message);
       setUsername("");
       setPassword("");
+      setUser(data.name);
+      navigate(`/profile/${data.name}`);
     } catch (error) {
       const errorMessage =
         error.response?.data?.message || error.error || "Something went wrong!";

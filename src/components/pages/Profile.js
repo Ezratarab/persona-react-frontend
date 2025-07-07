@@ -14,6 +14,7 @@ export default function Profile() {
   const { username } = useParams();
   const [user, setUser] = useState(null);
   const navigate = useNavigate();
+
   useEffect(() => {
     if (username) {
       const fetchUser = async () => {
@@ -32,7 +33,6 @@ export default function Profile() {
 
   const handleFlip = () => setIsFlipped(!isFlipped);
   if (!user) {
-    console.log("wait");
     return <div className={styles.loading}>Loading profile...</div>;
   }
   if (!user || !user.posts) {
@@ -92,13 +92,17 @@ export default function Profile() {
               {user?.posts?.length > 0 ? (
                 user.posts.map((post, index) => {
                   const firstPhoto = post.photos?.[0];
-
+                  const postId = post._id;
                   return firstPhoto ? (
                     <img
                       key={index}
                       src={firstPhoto}
                       alt={`Post ${index} photo`}
                       className={styles.post}
+                      onClick={(e) => {
+                        e.stopPropagation();
+                        navigate(`/post/${postId}`);
+                      }}
                     />
                   ) : null;
                 })
