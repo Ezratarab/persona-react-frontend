@@ -1,8 +1,6 @@
 import axios from "axios";
-import { useNavigate } from "react-router-dom";
 
 const API_URL = process.env.REACT_APP_API_URL;
-
 const axiosInstance = axios.create({
   baseURL: API_URL,
   withCredentials: true,
@@ -40,10 +38,18 @@ axiosInstance.interceptors.response.use(
       error.response.data?.message ===
         process.env.REACT_APP_REFRESH_TOKEN_EXPIRED
     ) {
-      window.location.href = "/login";
+      window.dispatchEvent(new Event("logout"));
       return Promise.reject(
         "User redirected to login due to expired refresh token"
       );
+    }
+    if (
+      error.response &&
+      error.response.data?.message ===
+        process.env.REACT_APP_REFRESH_TOKEN_NOT_FOUND
+    ) {
+      window.dispatchEvent(new Event("logout"));
+      return Promise.reject("User redirected to login due to no refresh token");
     }
 
     return Promise.reject(error);

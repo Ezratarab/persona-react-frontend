@@ -31,9 +31,7 @@ function Login() {
       setUser(data.name);
       navigate(`/profile/${data.name}`);
     } catch (error) {
-      const errorMessage =
-        error.response?.data?.message || error.error || "Something went wrong!";
-      notify(errorMessage);
+      notify(error.message);
     }
   };
 

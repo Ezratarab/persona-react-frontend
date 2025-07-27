@@ -1,12 +1,12 @@
 import axios from "axios";
 import { jwtDecode } from "jwt-decode";
 import axiosInstance from "./axiosInstance.js";
+import { useAuth } from "./AuthContext.js";
 
 const API_URL = process.env.REACT_APP_API_URL;
-
 class APIService {
   parseJwt(token) {
-    const base64Url = token.split(".")[1]; // get payload
+    const base64Url = token.split(".")[1];
     const base64 = base64Url.replace(/-/g, "+").replace(/_/g, "/");
     const jsonPayload = decodeURIComponent(
       atob(base64)
@@ -16,6 +16,7 @@ class APIService {
         })
         .join("")
     );
+    console.log(JSON.parse(jsonPayload));
     return JSON.parse(jsonPayload);
   }
 
@@ -36,7 +37,6 @@ class APIService {
           throw new Error("Didnt get accessToken!");
         }
         localStorage.setItem("accessToken", accessToken);
-
         return this.parseJwt(accessToken);
       }
     } catch (error) {
@@ -85,15 +85,13 @@ class APIService {
       );
   }
 
-  async post(images, description, location) {
-    const base64Images = await Promise.all(
-      images.map((blobUrl) => this.blobUrlToBase64(blobUrl))
-    );
+  async post(imageUrls, description, location) {
+
 
     const payload = {
       description: description ?? "",
       location: location ?? "",
-      photos: base64Images,
+      photos: imageUrls,
     };
 
     const response = await axiosInstance.post(`${API_URL}/post`, payload);
@@ -107,6 +105,13 @@ class APIService {
   }
   async likePost(postId) {
     const response = await axiosInstance.post(`${API_URL}/post/${postId}/like`);
+    return response.data.post;
+  }
+  async commentPost(postId, newComment) {
+    const response = await axiosInstance.post(
+      `${API_URL}/post/${postId}/comment`,
+      { newComment: newComment }
+    );
     return response.data.post;
   }
 }

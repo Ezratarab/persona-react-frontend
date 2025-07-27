@@ -5,22 +5,22 @@ import logo from "../assets/gold_chip.png";
 import authServiceInstance from "../components/service/APIService";
 import { useLocation } from "react-router-dom";
 import SearchBar from "./SearchBar";
+import { useAuth } from "./service/AuthContext";
 
 export default function NavBar() {
-  const [isLogin, setIsLogin] = useState(false);
   const [atHome, setIsAtHome] = useState(true);
   const navigate = useNavigate();
   const location = useLocation();
+  const { user, setUser } = useAuth();
 
-  const handleLogin = () => {
-    setIsLogin(true);
-    navigate("/login");
-  };
-
-  const handleLogout = async () => {
-    setIsLogin(false);
-    await authServiceInstance.logout();
-    navigate("/home");
+  const handleLoginLogout = async () => {
+    if (user) {
+      await authServiceInstance.logout();
+      setUser(null);
+      navigate("/home");
+    } else {
+      navigate("/login");
+    }
   };
   useEffect(() => {
     if (location.pathname === "/home") {
@@ -28,7 +28,8 @@ export default function NavBar() {
     } else {
       setIsAtHome(false);
     }
-  }, [location]);
+    console.log("now user::::,", user);
+  }, [location, user]);
 
   return (
     <div className={styles.navBar}>
@@ -44,12 +45,12 @@ export default function NavBar() {
       )}
 
       <div className={styles.login}>
-        {isLogin ? (
-          <a href="#" onClick={handleLogout}>
+        {user ? (
+          <a href="#" onClick={handleLoginLogout}>
             Log-Out
           </a>
         ) : (
-          <a href="#" onClick={handleLogin}>
+          <a href="#" onClick={handleLoginLogout}>
             Log-In
           </a>
         )}

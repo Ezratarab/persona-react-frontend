@@ -5,6 +5,9 @@ import Comment from "./Comment";
 import SearchBar from "./SearchBar";
 import { useNavigate, useParams } from "react-router-dom";
 import authServiceInstance from "./service/APIService";
+import { useAuth } from "./service/AuthContext";
+import Button from "@mui/material/Button";
+import SendIcon from "@mui/icons-material/Send";
 
 export default function Post() {
   const [liked, setLiked] = useState(false);
@@ -16,6 +19,7 @@ export default function Post() {
   const [index, setIndex] = useState(0);
   const [isThereNext, setIsThereNext] = useState(false);
   const navigate = useNavigate();
+  const { user } = useAuth();
 
   const next = () => {
     setIndex((prev) => (prev + 1) % post.photos.length);
@@ -29,16 +33,17 @@ export default function Post() {
     try {
       setLiked(!liked);
       setLikes((prev) => (liked ? prev - 1 : prev + 1));
-      await authServiceInstance.likePost(post._id, "ezratarab684");
+      await authServiceInstance.likePost(post._id, user);
     } catch (err) {
       console.error("Failed to like post:", err);
     }
   };
   const handleComment = async () => {
     try {
-      console.log("got here");
-      await authServiceInstance.likePost(post._id, "ezratarab684", newComment);
+      console.log("add comment: ", newComment);
+      await authServiceInstance.commentPost(post._id, newComment);
       setNewComment("");
+      window.location.reload();
     } catch (err) {
       console.error("Failed to comment post:", err);
     }
@@ -53,7 +58,10 @@ export default function Post() {
         setPost(post);
         setLikes(post.likes.length || 0);
         setComments(post.comments);
-        ///כשאני מוסיף את הטוקן אז להוסיף אם היוזר עשה לייק
+        console.log(post);
+        const isUserLiked = post.likes.some((like) => like.username === user);
+        setLiked(isUserLiked);
+        console.log("is user likes:", isUserLiked);
         if (post.photos.length > 1) setIsThereNext(true);
       } catch (error) {
         console.log("error while trying to fetch post: ", error);
@@ -61,8 +69,7 @@ export default function Post() {
     };
     fetchPost();
   }, [postId]);
-  console.log(post);
-  console.log(likes);
+
   if (!post) {
     return <div>FETCHING POST</div>;
   }
@@ -129,10 +136,17 @@ export default function Post() {
                 value={newComment}
                 onChange={(e) => setNewComment(e.target.value)}
               />
-              <button className={styles.sendButton}> שגר</button>
+              <Button
+                variant="contained"
+                endIcon={<SendIcon />}
+                className={styles.sendButton}
+                onClick={handleComment}
+              >
+                שגר
+              </Button>
             </div>
             {comments.map((comment, index) => {
-              console.log(comment);
+              console.log(comment.text);
               return (
                 <Comment
                   key={index}

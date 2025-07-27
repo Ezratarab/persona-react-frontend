@@ -11,24 +11,22 @@ import ProtectRoute from "./components/service/ProtectRoute.js";
 
 function App() {
   return (
-    <div>
+    <BrowserRouter>
       <AuthProvider>
-        <BrowserRouter>
-          <NavBar />
-          <Routes>
-            <Route path="/home" element={<Home />}></Route>
-            <Route path="/login" element={<Login />}></Route>
-            <Route path="/logout" element={<Home />}></Route>
-            <Route element={<ProtectRoute />}>
-              <Route path="/profile/:username" element={<Profile />} />
-              <Route path="/post/:postId" element={<Post />}></Route>
-              <Route path="/addPost" element={<AddPost />}></Route>
-              <Route path="*" element={<Navigate to="/home" />} />
-            </Route>
-          </Routes>
-        </BrowserRouter>
+        <NavBar />
+        <Routes>
+          <Route path="/home" element={<Home />}></Route>
+          <Route path="/login" element={<Login />}></Route>
+          <Route path="/logout" element={<Home />}></Route>
+          <Route element={<ProtectRoute />}>
+            <Route path="/profile/:username" element={<Profile />} />
+            <Route path="/post/:postId" element={<Post />}></Route>
+            <Route path="/addPost" element={<AddPost />}></Route>
+            <Route path="*" element={<Navigate to="/home" />} />
+          </Route>
+        </Routes>
       </AuthProvider>
-    </div>
+    </BrowserRouter>
   );
 }
 

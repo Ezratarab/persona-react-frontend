@@ -8,12 +8,15 @@ import Post from "../Post";
 import { useParams } from "react-router-dom";
 import authServiceInstance from "../../components/service/APIService";
 import { useNavigate } from "react-router-dom";
+import { useAuth } from "../service/AuthContext";
 
 export default function Profile() {
   const [isFlipped, setIsFlipped] = useState(false);
   const { username } = useParams();
-  const [user, setUser] = useState(null);
+  const [fullUser, setFullUser] = useState(null);
+  const [isSameUser, setIsSameUser] = useState(false);
   const navigate = useNavigate();
+  const { user } = useAuth();
 
   useEffect(() => {
     if (username) {
@@ -21,7 +24,10 @@ export default function Profile() {
         try {
           const fetchedUser = await authServiceInstance.getUser(username);
           console.log("Fetched user:", fetchedUser);
-          setUser(fetchedUser);
+          setFullUser(fetchedUser);
+          user === fetchedUser.username
+            ? setIsSameUser(true)
+            : setIsSameUser(false);
         } catch (err) {
           console.error("Failed to fetch user:", err);
         }
@@ -35,7 +41,7 @@ export default function Profile() {
   if (!user) {
     return <div className={styles.loading}>Loading profile...</div>;
   }
-  if (!user || !user.posts) {
+  if (!fullUser || !fullUser.posts) {
     return <p>Loading posts...</p>;
   }
   return (
@@ -46,51 +52,53 @@ export default function Profile() {
 
           <div className={styles.fullscreenCard} onClick={handleFlip}>
             <img
-              src={user?.profilePhoto || defaultImage}
-              alt={`${user?.username || "User"}'s profile`}
+              src={fullUser?.profilePhoto || defaultImage}
+              alt={`${fullUser?.username || "User"}'s profile`}
               className={styles.image}
             />
-            <button
-              className={styles.addPost}
-              onClick={(e) => {
-                e.stopPropagation();
-                navigate("/addPost");
-              }}
-            >
-              Add Post
-            </button>
-            <div className={styles.name}>{user.username}</div>
+            {isSameUser && (
+              <button
+                className={styles.addPost}
+                onClick={(e) => {
+                  e.stopPropagation();
+                  navigate("/addPost");
+                }}
+              >
+                Add Post
+              </button>
+            )}
+            <div className={styles.name}>{fullUser.username}</div>
 
             <div className={styles.information}>
               <div className={styles.infoItem}>
                 <small>Unit</small>
-                <p>{user.unit}</p>
+                <p>{fullUser.unit}</p>
               </div>
               <div className={styles.infoItem}>
                 <small>Team</small>
-                <p>{user.team}</p>
+                <p>{fullUser.team}</p>
               </div>
               <div className={styles.infoItem}>
                 <small>Release Day</small>
-                <p>{user.releaseDay}</p>
+                <p>{fullUser.releaseDay}</p>
               </div>
               <div className={styles.infoItem}>
                 <small>Role</small>
-                <p>{user.role}</p>
+                <p>{fullUser.role}</p>
               </div>
               <div className={styles.infoItem}>
                 <small>Gender</small>
-                <p>{user.gender}</p>
+                <p>{fullUser.gender}</p>
               </div>
-              <div className={styles.sentence}>{user.bio}</div>
+              <div className={styles.sentence}>{fullUser.bio}</div>
             </div>
           </div>
 
           {/* Back Side */}
           <div className={styles.fullscreenCard} onClick={handleFlip}>
             <div className={styles.posts}>
-              {user?.posts?.length > 0 ? (
-                user.posts.map((post, index) => {
+              {fullUser?.posts?.length > 0 ? (
+                fullUser.posts.map((post, index) => {
                   const firstPhoto = post.photos?.[0];
                   const postId = post._id;
                   return firstPhoto ? (

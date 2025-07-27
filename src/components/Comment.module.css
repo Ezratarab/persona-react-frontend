@@ -1,7 +1,23 @@
-.text{
-    color:red;
+.commentRow {
+  display: flex;
+  gap: 6px; /* spacing between username and comment text */
+  align-items: center;
+  flex-wrap: wrap; /* allows wrapping on small screens */
 }
-.writer{
-    cursor: pointer;
-    width: fit-content;
+
+.text {
+  color: red;
+  margin: 0; /* remove default p margin */
+}
+
+.writer {
+  cursor: pointer;
+  font-weight: bold;
+  width: fit-content;
+}
+
+.time {
+  font-size: x-small;
+  color: black;
+  margin-bottom: 7px;
 }

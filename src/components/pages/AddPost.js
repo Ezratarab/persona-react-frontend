@@ -4,6 +4,9 @@ import UploadPost from "../UploadPost";
 import ArmyLocation from "../../assets/location-army-logo.webp";
 import authServiceInstance from "../service/APIService";
 import { useNavigate } from "react-router-dom";
+import { useAuth } from "../service/AuthContext";
+import { ref, uploadBytes, getDownloadURL } from "firebase/storage";
+import { storage } from "../../DB/firebase.js";
 
 export default function AddPost() {
   const [offset, setOffset] = useState(0);
@@ -13,9 +16,12 @@ export default function AddPost() {
   const [uploaded, setUploaded] = useState(true);
   const [users, setUsers] = useState();
   const [location, setLocation] = useState("");
+  const [imageFiles, setImageFiles] = useState([]);
+
   const requestRef = useRef();
   const textareaRef = useRef(null);
   const navigate = useNavigate();
+  const { user } = useAuth();
 
   const speed = 2;
   const spacing = 50;
@@ -63,34 +69,32 @@ export default function AddPost() {
     }, 0);
     setSearched();
   };
+
   const handlePost = async () => {
-    const descriptionText = description ?? null;
-    const locationText = location ?? null;
-
-    const arrayOfPosts = sessionStorage.getItem("images");
-    const parsedPosts = JSON.parse(arrayOfPosts || "[]");
-    const cleanedPosts = parsedPosts.filter((item) => item != null);
-
-    const count = sessionStorage.getItem("countImages");
-
-    if (!count || Number(count) === 0) {
-      alert("UPLOAD IMAGES!");
+    if (!imageFiles.length) {
+      alert("Please upload images.");
       return;
     }
 
+    setUploaded(false);
     try {
-      setUploaded(false); // Start uploading
+      const uploadPromises = imageFiles.map(async (file) => {
+        const fileRef = ref(storage, `posts/${Date.now()}-${file.name}`);
+        const snapshot = await uploadBytes(fileRef, file);
+        return await getDownloadURL(snapshot.ref);
+      });
 
+      const imageUrls = await Promise.all(uploadPromises);
+      console.log(imageUrls);
       const response = await authServiceInstance.post(
-        "ezratarab684",
-        cleanedPosts,
-        descriptionText,
-        locationText
+        imageUrls,
+        description || null,
+        location || null
       );
 
       if (response.status === 201) {
         alert(response.data.message);
-        navigate("/profile/ezratarab684");
+        navigate(`/profile/${user}`);
       } else {
         alert("Something went wrong.");
       }
@@ -98,7 +102,7 @@ export default function AddPost() {
       console.error("Upload error:", err);
       alert("Upload failed.");
     } finally {
-      setUploaded(true); // Upload complete
+      setUploaded(true);
     }
   };
 
@@ -143,9 +147,11 @@ export default function AddPost() {
           )}
         </div>
       </div>
-      <div className={styles.countImages}>count images: {countImages}</div>
       <div className={styles.uploadPost}>
-        <UploadPost onCountImage={handleCountImages} />
+        <UploadPost
+          onCountImage={handleCountImages}
+          onFilesSelected={(files) => setImageFiles(files)}
+        />
       </div>
       <div className={styles.description}>
         <div className={styles.descriptionTitle}>Description:</div>
